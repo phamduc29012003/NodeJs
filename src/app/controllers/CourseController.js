@@ -9,12 +9,11 @@ class CourseController {
       .catch(next);
   }
   store(req, res, next) {
-    const formData = req.body;
-    formData.image = `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCML-byK5TPhWN_-ZuZal4h5KasYw`;
+    req.body.image = `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCML-byK5TPhWN_-ZuZal4h5KasYw`;
     const course = new Course(req.body);
     course
       .save()
-      .then(() => res.redirect("/"))
+      .then(() => res.redirect("/me/stored/courses"))
       .catch((error) => {});
   }
 
@@ -41,6 +40,17 @@ class CourseController {
     .catch(next)
   }
   
+  forceDestroy(req,res,next){
+    Course.deleteOne({_id: req.params.id})
+    .then(()=>res.redirect('back'))
+    .catch(next)
+  }
+
+  restore(req,res,next) {
+    Course.restore({_id: req.params.id})
+    .then(()=>res.redirect('back'))
+    .catch(next)
+  }
 }
 
 module.exports = new CourseController();
