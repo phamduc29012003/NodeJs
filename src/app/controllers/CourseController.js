@@ -1,4 +1,4 @@
-const Course = require("../models/Course");
+const Course = require("../models/Course").Course
 const { mongooseToObject, mutipleMongooseToObject } = require("../../util/mongoose");
 class CourseController {
   show(req, res, next) {
